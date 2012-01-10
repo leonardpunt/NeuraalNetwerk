@@ -3,3 +3,8 @@
 
 /bin
 /output
+/build
+/nbproject
+build.xml
+manifest.mf
+.project
