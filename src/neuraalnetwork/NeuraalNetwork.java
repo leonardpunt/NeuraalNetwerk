@@ -12,20 +12,20 @@ public class NeuraalNetwork {
 	}
 	
 	public void backPropagate(double[] actualOutput, double[] desiredOutput, double learningRate) {
-		List<List<Double>> derivatives = new ArrayList<List<Double>>();
+		List<List<Double>> layerDerivativesX = new ArrayList<List<Double>>();
 		
-		//Calculate partial derivative for last layer
-		List<Double> partialDerivativeLastLayer = new ArrayList<Double>();
+		//Calculate derivatives for x, for last layer
+		List<Double> derivativesX = new ArrayList<Double>();
 		for (int i = 0; i < actualOutput.length; i++) {
-			partialDerivativeLastLayer.add(actualOutput[i] - desiredOutput[i]);
+			derivativesX.add(actualOutput[i] - desiredOutput[i]);
 		}
-		derivatives.add(partialDerivativeLastLayer);
+		layerDerivativesX.add(derivativesX);
 		
 		//Iterate through all layers, except the first, starting from the last. 
-		//  Call backPropagate function for each layer
-		//  The backPropagete function returns the derivatives for that layer, so add that to the derivatives list.
+		//  - Call backPropagate function for each layer
+		//  - The backPropagete function returns the derivativesX for that layer, so add that to the derivatives list.
 		for (int i = layers.size()-1; i > 1; i--) {
-			derivatives.add(0, layers.get(i).backPropagation(derivatives.get(0), learningRate));
+			layerDerivativesX.add(0, layers.get(i).backPropagation(layerDerivativesX.get(0), learningRate));
 		}
 	}
 

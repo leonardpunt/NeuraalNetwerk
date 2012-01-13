@@ -11,7 +11,7 @@ public class Neuron {
 		return outgoingConnections;
 	}
 	
-	public void addConnection(Neuron outgoingConnection, double weight) {
+	public void addConnection(Neuron outgoingConnection, Weight weight) {
 		outgoingConnections.add(new Connection(outgoingConnection, weight));
 	}
 
