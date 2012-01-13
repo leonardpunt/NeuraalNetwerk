@@ -5,14 +5,14 @@ import java.util.List;
 public class Neuron {
 	
 	private double output;
-	private List<Connection> connections;
+	private List<Connection> outgoingConnections;
 	
 	public List<Connection> getConnections() {
-		return connections;
+		return outgoingConnections;
 	}
 	
-	public void addConnection(Neuron connectionTo, double weight) {
-		connections.add(new Connection(connectionTo, weight));
+	public void addConnection(Neuron outgoingConnection, double weight) {
+		outgoingConnections.add(new Connection(outgoingConnection, weight));
 	}
 
 	public double getOutput() {
