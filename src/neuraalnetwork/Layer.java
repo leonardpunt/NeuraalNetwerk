@@ -11,24 +11,16 @@ public class Layer {
 	private Layer prevLayer;
 	private List<Neuron> neurons;
 	
-	//Klopt niet!
 	public void forwardPropagate() {
-		if (prevLayer != null) {			
+		if (prevLayer != null) {		
 			for (Neuron neuron : neurons) {
 				double sum = 0.0;
-				for (Neuron neuronPrevLayer : prevLayer.getNeurons()) {				
-					for (Connection connection : neuronPrevLayer.getConnections()) {
-						if (connection.getConnectionFrom().equals(neuron)) {
-							sum += neuronPrevLayer.getOutput() * connection.getWeight().getValue();
-						}
-					}
+				for (Connection connection : neuron.getConnections()) {
+					sum += connection.getWeight().getValue() * connection.getConnectionFrom().getOutput();
 				}
-			neuron.setOutput(HyperbolicTanget.activate(sum));
+				neuron.setOutput(HyperbolicTanget.activate(sum));
 			}
 		}
-		else {
-			//Input laag
-		}		
 	}
 	
 	//Returns derivative for previous layer
