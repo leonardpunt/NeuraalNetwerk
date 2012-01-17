@@ -11,6 +11,10 @@ public class Layer {
 	private Layer prevLayer;
 	private List<Neuron> neurons;
 	
+	public Layer(Layer prevLayer) {
+		this.prevLayer = prevLayer;
+	}
+	
 	public void forwardPropagate() {
 		if (prevLayer != null) {		
 			for (Neuron neuron : neurons) {
@@ -65,10 +69,6 @@ public class Layer {
 
 	public Layer getPrevLayer() {
 		return prevLayer;
-	}
-
-	public void setPrevLayer(Layer prevLayer) {
-		this.prevLayer = prevLayer;
 	}
 
 	public List<Neuron> getNeurons() {

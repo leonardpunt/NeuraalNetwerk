@@ -1,11 +1,16 @@
 package neuraalnetwork;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Neuron {
 	
 	private double output;
 	private List<Connection> outgoingConnections;
+	
+	public Neuron() {
+		outgoingConnections = new ArrayList<Connection>();
+	}
 	
 	public List<Connection> getConnections() {
 		return outgoingConnections;

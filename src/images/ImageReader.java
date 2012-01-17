@@ -1,47 +1,70 @@
 package images;
 
-import java.io.File;
 import java.io.IOException;
 
 import mnist.tools.MnistManager;
 
 public class ImageReader {
 
-	public void test() {
-		MnistManager m;
+	MnistManager trainingSet;
+	MnistManager testSet;
+
+	public ImageReader() {
 		try {
-			m = new MnistManager("data/t10k-images-idx3-ubyte",
-					"data/t10k-labels-idx1-ubyte");
-			m.setCurrent(10); // index of the image that we are interested in
-			int[][] image = m.readImage();
-			
-			System.out.println("Label:" + m.readLabel());
-			new File("output").mkdir();
-			MnistManager.writeImageToPpm(image, "output/10.ppm");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public int lengthOfTrainingSet() {
-		try {
-			MnistManager m = new MnistManager("data/train-images-idx3-ubyte",
+			trainingSet = new MnistManager("data/train-images-idx3-ubyte",
 					"data/train-labels-idx1-ubyte");
-			return m.getImages().getCount();
+			testSet = new MnistManager("data/t10k-images-idx3-ubyte",
+					"data/t10k-labels-idx1-ubyte");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return 0;
+	}
+
+	public double[] readImage(int i, MnistManager set) {
+		set.setCurrent(i); // index of the image that we are interested in
+		int[][] image = new int[28][28];
+		double[] newImage = new double[784];
+
+		try {
+			image = set.readImage();
+			int count = 0;
+			for (int j = 0; j < image.length; j++) {
+				for (int k = 0; k < image[j].length; k++) {
+					newImage[count] = ((double) image[j][k] / 128.0) - 1.0;
+					count++;
+				}
+			}			
+			return newImage;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 	
-	public int lengthOfTestSet() {
+	public int readLabel(int i, MnistManager set) {
+		set.setCurrent(i);		
 		try {
-			MnistManager m = new MnistManager("data/t10k-images-idx3-ubyte",
-					"data/t10k-labels-idx1-ubyte");
-			return m.getImages().getCount();
+			return set.readLabel();
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		}		
 		return 0;
+	}
+
+	public int lengthOfTrainingSet() {
+		return trainingSet.getImages().getCount();
+	}
+
+	public int lengthOfTestSet() {
+		return testSet.getImages().getCount();
+	}
+	
+	public MnistManager getTrainingSet() {
+		return trainingSet;
+	}
+
+	public MnistManager getTestSet() {
+		return testSet;
 	}
 }

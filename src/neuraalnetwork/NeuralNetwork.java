@@ -5,13 +5,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NeuraalNetwork {
+public class NeuralNetwork {
 	
 	private List<Layer> layers;
 	
+	public NeuralNetwork(int numberNeuronsHiddenLayer) {
+		layers = new ArrayList<Layer>();
+		buildNetwork(numberNeuronsHiddenLayer);
+	}
+	
 	public void buildNetwork(int numberNeuronsHiddenLayer) {
 		//Input layer
-		Layer inputLayer = new Layer();
+		Layer inputLayer = new Layer(null);
 		List<Neuron> neuronsInputLayer = new ArrayList<Neuron>();
 		for (int i = 0; i < 784; i++) {			
 			neuronsInputLayer.add(new Neuron());
@@ -20,7 +25,7 @@ public class NeuraalNetwork {
 		layers.add(inputLayer);
 		
 		//Hidden layer
-		Layer hiddenLayer = new Layer();
+		Layer hiddenLayer = new Layer(inputLayer);
 		List<Neuron> neuronsHiddenLayer = new ArrayList<Neuron>();
 		for (int i = 0; i < numberNeuronsHiddenLayer; i++) {
 			neuronsHiddenLayer.add(new Neuron());
@@ -35,7 +40,7 @@ public class NeuraalNetwork {
 		layers.add(hiddenLayer);
 		
 		//Output layer
-		Layer outputLayer = new Layer();
+		Layer outputLayer = new Layer(hiddenLayer);
 		List<Neuron> neuronsOutputLayer = new ArrayList<Neuron>();
 		for (int i = 0; i < 10; i ++) {
 			neuronsOutputLayer.add(new Neuron());
@@ -50,8 +55,7 @@ public class NeuraalNetwork {
 		layers.add(outputLayer);
 	}
 	
-	//Wat is input en iCount???
-	public double[] forwardPropagate(double[] input, int iCount) {
+	public double[] forwardPropagate(double[] input) {
 		//Set the output of the first layer
 		Layer firstLayer = layers.get(0);
 		int count = 0;
@@ -82,7 +86,7 @@ public class NeuraalNetwork {
 		//Calculate derivatives for x, for last layer
 		Map<Neuron, Double> derivativesX = new HashMap<Neuron, Double>();
 		for (int i = 0; i < actualOutput.length; i++) {
-			Neuron neuron = layers.get(layers.size()).getNeurons().get(i);
+			Neuron neuron = layers.get(layers.size()-1).getNeurons().get(i);
 			derivativesX.put(neuron, actualOutput[i] - desiredOutput[i]);
 		}
 		layerDerivativesX.add(derivativesX);
