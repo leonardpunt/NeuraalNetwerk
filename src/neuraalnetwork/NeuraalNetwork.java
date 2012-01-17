@@ -9,6 +9,47 @@ public class NeuraalNetwork {
 	
 	private List<Layer> layers;
 	
+	public void buildNetwork(int numberNeuronsHiddenLayer) {
+		//Input layer
+		Layer inputLayer = new Layer();
+		List<Neuron> neuronsInputLayer = new ArrayList<Neuron>();
+		for (int i = 0; i < 784; i++) {			
+			neuronsInputLayer.add(new Neuron());
+		}
+		inputLayer.setNeurons(neuronsInputLayer);
+		layers.add(inputLayer);
+		
+		//Hidden layer
+		Layer hiddenLayer = new Layer();
+		List<Neuron> neuronsHiddenLayer = new ArrayList<Neuron>();
+		for (int i = 0; i < numberNeuronsHiddenLayer; i++) {
+			neuronsHiddenLayer.add(new Neuron());
+		}
+		
+		for (Neuron neuron : neuronsHiddenLayer) {
+			for (Neuron neuronPreviousLayer : neuronsInputLayer) {
+				neuron.addConnection(neuronPreviousLayer, new Weight(0.5 - Math.random()));
+			}
+		}
+		hiddenLayer.setNeurons(neuronsHiddenLayer);
+		layers.add(hiddenLayer);
+		
+		//Output layer
+		Layer outputLayer = new Layer();
+		List<Neuron> neuronsOutputLayer = new ArrayList<Neuron>();
+		for (int i = 0; i < 10; i ++) {
+			neuronsOutputLayer.add(new Neuron());
+		}
+		
+		for (Neuron neuron : neuronsOutputLayer) {
+			for (Neuron neuronPreviousLayer : neuronsHiddenLayer) {
+				neuron.addConnection(neuronPreviousLayer, new Weight(0.5 - Math.random()));
+			}
+		}
+		outputLayer.setNeurons(neuronsOutputLayer);
+		layers.add(outputLayer);
+	}
+	
 	//Wat is input en iCount???
 	public double[] forwardPropagate(double[] input, int iCount) {
 		//Set the output of the first layer
