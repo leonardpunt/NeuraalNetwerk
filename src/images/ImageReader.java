@@ -27,11 +27,9 @@ public class ImageReader {
 
 		try {
 			image = set.readImage();
-			int count = 0;
 			for (int j = 0; j < image.length; j++) {
 				for (int k = 0; k < image[j].length; k++) {
-					newImage[count] = ((double) image[j][k] / 128.0) - 1.0;
-					count++;
+					newImage[k + j * image.length] = ((double) image[j][k] / 128.0) - 1.0;
 				}
 			}			
 			return newImage;

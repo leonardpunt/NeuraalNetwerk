@@ -43,7 +43,7 @@ public class Layer {
 		for (Neuron neuron : neurons) {
 			for (Connection connection : neuron.getConnections()) {					
 				double output = connection.getConnectionFrom().getOutput();				
-				derivativesW.put(connection.getWeight(), derivativesY.get(neuron) * output);				
+				derivativesW.put(connection.getWeight(), output * derivativesY.get(neuron));				
 			}
 		}
 		
