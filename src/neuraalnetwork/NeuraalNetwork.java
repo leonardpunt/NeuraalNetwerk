@@ -1,7 +1,9 @@
 package neuraalnetwork;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NeuraalNetwork {
 	
@@ -12,12 +14,13 @@ public class NeuraalNetwork {
 	}
 	
 	public void backPropagate(double[] actualOutput, double[] desiredOutput, double learningRate) {
-		List<List<Double>> layerDerivativesX = new ArrayList<List<Double>>();
+		List<Map<Neuron, Double>> layerDerivativesX = new ArrayList<Map<Neuron, Double>>();
 		
 		//Calculate derivatives for x, for last layer
-		List<Double> derivativesX = new ArrayList<Double>();
+		Map<Neuron, Double> derivativesX = new HashMap<Neuron, Double>();
 		for (int i = 0; i < actualOutput.length; i++) {
-			derivativesX.add(actualOutput[i] - desiredOutput[i]);
+			Neuron neuron = layers.get(layers.size()).getNeurons().get(i);
+			derivativesX.put(neuron, actualOutput[i] - desiredOutput[i]);
 		}
 		layerDerivativesX.add(derivativesX);
 		

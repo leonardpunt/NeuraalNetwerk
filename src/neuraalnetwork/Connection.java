@@ -2,19 +2,19 @@ package neuraalnetwork;
 
 public class Connection {
 
-    private Neuron connectionTo;
+    private Neuron connectionFrom;
     private Weight weight;
 
-    Connection(Neuron connectionTo, Weight weight) {
-        this.connectionTo = connectionTo;
+    Connection(Neuron connectionFrom, Weight weight) {
+        this.connectionFrom = connectionFrom;
         this.weight = weight;
     }
 
-    public Neuron getConnectionTo() {
-        return connectionTo;
+    public Neuron getConnectionFrom() {
+        return connectionFrom;
     }
 
-    public double getWeight() {
-        return weight.getWeight();
+    public Weight getWeight() {
+        return weight;
     }
 }

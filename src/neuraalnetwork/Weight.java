@@ -1,17 +1,17 @@
 package neuraalnetwork;
 
 public class Weight {
-    private double weight;
+    private double value;
 
-    public Weight(double weight) {
-        this.weight = weight;
+    public Weight(double value) {
+        this.value = value;
     }
 
-    public double getWeight() {
-        return weight;
+    public double getValue() {
+        return value;
     }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public void setValue(double weight) {
+        this.value = weight;
     }
 }
