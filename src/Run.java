@@ -1,9 +1,9 @@
-import images.ImagesReader;
+import images.ImageReader;
 
 public class Run {
 
 	public static void main(String[] args) {
-		ImagesReader r = new ImagesReader();
+		ImageReader r = new ImageReader();
 		r.test();
 	}
 }

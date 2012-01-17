@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import mnist.tools.MnistManager;
 
-public class ImagesReader {
+public class ImageReader {
 
 	public void test() {
 		MnistManager m;
