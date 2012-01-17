@@ -22,4 +22,26 @@ public class ImageReader {
 			e.printStackTrace();
 		}
 	}
+	
+	public int lengthOfTrainingSet() {
+		try {
+			MnistManager m = new MnistManager("data/train-images-idx3-ubyte",
+					"data/train-labels-idx1-ubyte");
+			return m.getImages().getCount();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int lengthOfTestSet() {
+		try {
+			MnistManager m = new MnistManager("data/t10k-images-idx3-ubyte",
+					"data/t10k-labels-idx1-ubyte");
+			return m.getImages().getCount();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 }
