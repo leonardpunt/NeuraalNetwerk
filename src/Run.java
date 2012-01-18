@@ -9,9 +9,30 @@ public class Run {
 	public static void main(String[] args) {
 		ImageReader ir = new ImageReader();
 		
-		//Read args
-		int numberNeuronsHiddenLayer = 50;
-		double learningRate = 0.001;
+		/*
+		 * RESULTS
+		 * 
+		 * numberNeuronsHiddenLayer : 10
+		 * 0.008 = 27%; 23%
+		 * 
+		 * numberNeuronsHiddenLayer : 50
+		 * 0.05 = 51%; 53%
+		 * 0.03 = 60%; 57%
+		 * 0.01 = 53%; 63%; 59%
+		 * 0.008 = 57%; 65%; 66%
+		 * 0.005 = 68%; 67%; 57%
+		 * 
+		 * numberNeuronsHiddenLayer : 70
+		 * 0.008 = 57%; 58
+		 * 
+		 * numberNeuronsHiddenLayer : 100
+		 * 0.008 = 40%; 57%; 56%
+		 * 
+		 * numberNeuronsHiddenLayer : 150
+		 * 0.008 = 53%
+		 */
+		int numberNeuronsHiddenLayer = 150;
+		double learningRate = 0.008;
 		
 		//Initialize Network		
 		NeuralNetwork nn = new NeuralNetwork(numberNeuronsHiddenLayer);
