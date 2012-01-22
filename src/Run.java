@@ -1,5 +1,7 @@
+
 import images.ImageReader;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -56,17 +58,31 @@ public class Run {
 		double meanActualOutput = 0.0;
 		int counter = 0;
 		while (meanActualOutput < 0.8) {	
-			counter++;
+			counter++;			
+			
+			// Initializing threads
+			int beginIndex = 0;
+			int endIndex = 0;
+			int numberOfThreads = 4;
+			List<Thread> threads = new ArrayList<Thread>();
+			for (int i = 1; i <= numberOfThreads; i++) {
+				endIndex = (ir.lengthOfTrainingSet() / numberOfThreads) * i;
+				Thread t = new Thread(new BackPropagateThread(beginIndex, endIndex, learningRate, nn));
+				threads.add(t);
+				t.start();
+				beginIndex = endIndex + 1;
+			}
 			
 			// Train
-			Date trainingsRoundStarted = Calendar.getInstance().getTime();
-			for (int i = 1; i <= ir.lengthOfTrainingSet(); i++) {
-				double[] image = ir.readImage(i, ir.getTrainingSet());
-				int label = ir.readLabel(i, ir.getTrainingSet());
-				double[] actualOutput = nn.forwardPropagate(image);
-				nn.backPropagate(actualOutput, getTargetOutput(label),
-						learningRate);
-			}
+			Date trainingsRoundStarted = Calendar.getInstance().getTime();			
+            try {
+            	for (Thread t : threads) {
+            		t.join();
+            		Thread.sleep(100); // After including these sleeps I din't get some nullpointer exceptions
+            	}
+            } catch (Exception e) {
+                System.err.println(e.toString());
+            }
 			Date trainingsRoundEnded = Calendar.getInstance().getTime();
 			
 			// Validate
@@ -76,12 +92,12 @@ public class Run {
 				int label = ir.readLabel(indicesValidationSet.get(i), ir.getTrainingSet());
 				double[] actualOutput = nn.forwardPropagate(image);
 				sumActualOutput += actualOutput[label];				
-			}
+			}			
 			
 			meanActualOutput = sumActualOutput / indicesValidationSet.size();			
 			
 			System.out.println("Mean actual output: " + meanActualOutput +"; Round: " + counter + "; Time: " 
-					+ ((trainingsRoundEnded.getTime() - trainingsRoundStarted.getTime()) / 1000) + " seconds");
+					+ ((trainingsRoundEnded.getTime() - trainingsRoundStarted.getTime()) / 1000) + " seconds " + Thread.activeCount());
 		}
 
 		// Test network
@@ -111,7 +127,7 @@ public class Run {
 		System.out.println("--- Ended at " + timeFinished + " --- " +
 				"Runtime: " + ((timeFinished.getTime() - timeStarted.getTime()) / 1000) + " seconds");
 	}
-
+    
 	private static double[] getTargetOutput(int label) {
 		double[] targetOutput = new double[10];
 		for (int i = 0; i < targetOutput.length; i++) {
@@ -120,56 +136,30 @@ public class Run {
 		targetOutput[label] = 1.0;
 		return targetOutput;
 	}
-
-//	private static void printNetwork(NeuralNetwork nn) {
-//		int layerIndex = 0;
-//		for (Layer layer : nn.getLayers().subList(2, 3)) {
-//			System.out.println("Layer " + layerIndex);
-//			layerIndex++;
-//
-//			int neuronIndex = 0;
-//			for (Neuron neuron : layer.getNeurons()) {
-//				System.out.println("Neuron " + neuronIndex + " Output: "
-//						+ neuron.getOutput());
-//				neuronIndex++;
-//
-//				int connectionIndex = 0;
-//				for (Connection connection : neuron.getConnections()) {
-//					// System.out.println("Connection " + connectionIndex + " Weight: " + connection.getWeight().getValue());
-//					connectionIndex++;
-//				}
-//			}
-//		}
-//	}
 	
-//	double blabla = 0.0;
-//	int testLabel = ir.readLabel(1, ir.getTrainingSet());
-//	System.out.println(testLabel);
-//	double[] testImage = ir.readImage(1, ir.getTrainingSet());
-//	double[] testOutput = nn.forwardPropagate(testImage);
-//	System.out.println(testOutput[testLabel]);
-//	int counter = 0;
-//	
-//	while (blabla < 0.90) {		
-//		counter++;
-//		for (int i = 1; i <= 1; i++) {
-//			double[] image = ir.readImage(i, ir.getTrainingSet());
-//			int label = ir.readLabel(i, ir.getTrainingSet());
-//			double[] actualOutput = nn.forwardPropagate(image);
-//			nn.backPropagate(actualOutput, getTargetOutput(label),
-//					learningRate);
-//		}				
-//		testOutput = nn.forwardPropagate(testImage);
-//		System.out.println(counter + " : " + testOutput[testLabel]);
-//		
-//		blabla = testOutput[testLabel];
-//	}
-//	
-//	System.out.println("-----------------------");
-//	
-//	for (int i = 0; i < 10; i++) {
-//		System.out.println(testOutput[i]);
-//	}
-//	
-//	System.exit(-1);
+    private static class BackPropagateThread implements Runnable {
+
+        int beginIndex, endIndex;
+        double learningRate;
+        NeuralNetwork nn;
+
+        // Constructor for BackPropagateThread since you can't give run() any parameters.
+        public BackPropagateThread(int beginIndex, int endIndex, double learningRate, NeuralNetwork nn) {
+            this.beginIndex = beginIndex;
+            this.endIndex = endIndex;
+            this.nn = nn;
+            this.learningRate = learningRate;
+        }
+
+        public void run() {
+        	ImageReader ir = new ImageReader();
+            for (int i = this.beginIndex + 1; i < this.endIndex; i++) {
+                double[] image = ir.readImage(i, ir.getTrainingSet());
+                int label = ir.readLabel(i, ir.getTrainingSet());
+                double[] actualOutput = nn.forwardPropagate(image);
+                nn.backPropagate(actualOutput, getTargetOutput(label), learningRate);
+            }
+        }
+    }
+    
 }
