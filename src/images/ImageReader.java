@@ -1,6 +1,8 @@
 package images;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import mnist.tools.MnistManager;
 
@@ -48,6 +50,14 @@ public class ImageReader {
 			e.printStackTrace();
 		}		
 		return 0;
+	}
+	
+	public List<Integer> getIndicesValidationSet(int sizeValidationSet) {
+		ArrayList<Integer> indicesValidationSet = new ArrayList<Integer>();
+		for (int i = 1; i <= sizeValidationSet; i++) {
+			indicesValidationSet.add((int) (Math.random() * lengthOfTrainingSet()));
+		}
+		return indicesValidationSet;
 	}
 
 	public int lengthOfTrainingSet() {
