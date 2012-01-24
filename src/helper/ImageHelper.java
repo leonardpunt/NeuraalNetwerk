@@ -1,4 +1,4 @@
-package images;
+package helper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,12 +6,12 @@ import java.util.List;
 
 import mnist.tools.MnistManager;
 
-public class ImageReader {
+public class ImageHelper {
 
 	MnistManager trainingSet;
 	MnistManager testSet;
 
-	public ImageReader() {
+	public ImageHelper() {
 		try {
 			trainingSet = new MnistManager("data/train-images-idx3-ubyte",
 					"data/train-labels-idx1-ubyte");
