@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import activation.HyperbolicTanget;
+import activation.HyperbolicTangent;
 
 public class Layer {
 	
@@ -22,7 +22,7 @@ public class Layer {
 				for (Connection connection : neuron.getConnections()) {
 					sum += connection.getWeight().getValue() * connection.getConnectionFrom().getOutput();
 				}
-				neuron.setOutput(HyperbolicTanget.activate(sum));
+				neuron.setOutput(HyperbolicTangent.activate(sum));
 			}
 		}
 	}
@@ -36,7 +36,7 @@ public class Layer {
 		//Calculate derivatives for y		
 		for (Neuron neuron : neurons) {
 			double output = neuron.getOutput();
-			derivativesY.put(neuron, HyperbolicTanget.derivative(output) * derivativesX.get(neuron));
+			derivativesY.put(neuron, HyperbolicTangent.derivative(output) * derivativesX.get(neuron));
 		}
 
 		//Calculate derivatives for w

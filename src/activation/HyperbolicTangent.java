@@ -1,6 +1,6 @@
 package activation;
 
-public class HyperbolicTanget {
+public class HyperbolicTangent {
 	
 	public static double activate(double sum) {
 		return Math.sinh(sum)/Math.cosh(sum);
