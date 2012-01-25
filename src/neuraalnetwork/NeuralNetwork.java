@@ -55,12 +55,12 @@ public class NeuralNetwork {
 		layers.add(outputLayer);
 	}
 	
-	public double[] forwardPropagate(double[] input) {
+	public double[] forwardPropagate(int[] input) {
 		//Set the output of the first layer
 		Layer firstLayer = layers.get(0);
 		int count = 0;
 		for (Neuron neuron : firstLayer.getNeurons()) {			
-			neuron.setOutput(input[count]);
+			neuron.setOutput((double) input[count]);
 			count++;
 		}
 		

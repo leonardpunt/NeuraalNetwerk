@@ -22,19 +22,20 @@ public class ImageHelper {
 		}
 	}
 
-	public double[] readImage(int i, MnistManager set) {
+	public int[] readImage(int i, MnistManager set) {
 		set.setCurrent(i); // index of the image that we are interested in
 		int[][] image = new int[28][28];
-		double[] newImage = new double[784];
+		int[] newImage = new int[784];
 
 		try {
 			image = set.readImage();
 			for (int j = 0; j < image.length; j++) {
 				for (int k = 0; k < image[j].length; k++) {
-					newImage[k + j * image.length] = ((double) image[j][k] / 128.0) - 1.0;
+					newImage[k + j * image.length] = image[j][k];
 				}
-			}			
-			return newImage;
+			}
+			OtsuTresholdingAlgorithm ota = new OtsuTresholdingAlgorithm();			
+			return ota.doThreshold(newImage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

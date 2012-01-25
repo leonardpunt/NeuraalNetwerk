@@ -65,7 +65,7 @@ public class Run {
 			// Train
 			Date trainingsRoundStarted = Calendar.getInstance().getTime();
 			for (int i = 1; i <= ih.lengthOfTrainingSet(); i++) {
-				double[] image = ih.readImage(trainingDataSequence[i], ih.getTrainingSet());
+				int[] image = ih.readImage(trainingDataSequence[i], ih.getTrainingSet());
 				int label = ih.readLabel(trainingDataSequence[i], ih.getTrainingSet());
 				double[] actualOutput = nn.forwardPropagate(image);
 				nn.backPropagate(actualOutput, ch.getTargetOutput(label),
@@ -76,7 +76,7 @@ public class Run {
 			// Validate
 			double sumError = 0.0;
 			for (int i = 0; i < indicesValidationSet.size(); i++) {
-				double[] image = ih.readImage(indicesValidationSet.get(i), ih.getTrainingSet());
+				int[] image = ih.readImage(indicesValidationSet.get(i), ih.getTrainingSet());
 				int label = ih.readLabel(indicesValidationSet.get(i), ih.getTrainingSet());
 				double[] actualOutput = nn.forwardPropagate(image);
 				sumError += ch.calculateError(actualOutput, ch.getTargetOutput(label));		
@@ -93,7 +93,7 @@ public class Run {
 		// Test network
 		int numberOfRightAnswers = 0;
 		for (int i = 1; i <= ih.lengthOfTestSet(); i++) {
-			double[] image = ih.readImage(i, ih.getTestSet());
+			int[] image = ih.readImage(i, ih.getTestSet());
 			int label = ih.readLabel(i, ih.getTestSet());
 			double[] actualOutput = nn.forwardPropagate(image);
 
