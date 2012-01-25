@@ -15,34 +15,12 @@ public class Run {
 		
 		ImageHelper ih = new ImageHelper();
 		CalculationHelper ch = new CalculationHelper();
-
-		/*
-		 * RESULTS
-		 * 
-		 * numberNeuronsHiddenLayer : 10 
-		 * 0.008 = 27%; 23%
-		 * 
-		 * numberNeuronsHiddenLayer : 50 
-		 * 0.05 = 51%; 53% 
-		 * 0.03 = 60%; 57% 
-		 * 0.01 = 53%; 63%; 59% 
-		 * 0.008 = 57%; 65%; 66%; 63% 
-		 * 0.005 = 68%; 67%; 57%
-		 * 
-		 * numberNeuronsHiddenLayer : 70 
-		 * 0.008 = 57%; 58
-		 * 
-		 * numberNeuronsHiddenLayer : 100 
-		 * 0.008 = 40%; 57%; 56%
-		 * 
-		 * numberNeuronsHiddenLayer : 150 
-		 * 0.008 = 53%
-		 */
 		
 		// Parameters
 		int numberNeuronsHiddenLayer = 50;
 		double learningRate = 0.008;
 		int sizeValidationSet = 50;
+		double desiredError = 0.8;
 
 		// Initialize network
 		NeuralNetwork nn = new NeuralNetwork(numberNeuronsHiddenLayer);
@@ -59,7 +37,7 @@ public class Run {
 		// Train and validate network
 		double meanError = 10.0;
 		int counter = 0;
-		while (0.8 < meanError) {	
+		while (desiredError < meanError) {	
 			counter++;
 			
 			// Train
