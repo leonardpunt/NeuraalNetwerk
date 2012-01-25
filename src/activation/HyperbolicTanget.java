@@ -1,8 +1,5 @@
 package activation;
 
-/*
- * http://www.codeproject.com/KB/library/NeuralNetRecognition.aspx#ActivationFunction
- */
 public class HyperbolicTanget {
 	
 	public static double activate(double sum) {
