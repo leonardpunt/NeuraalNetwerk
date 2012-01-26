@@ -20,7 +20,7 @@ public class Run {
 		int numberNeuronsHiddenLayer = 50;
 		double learningRate = 0.008;
 		int sizeValidationSet = 50;
-		double desiredError = 0.8;
+		double desiredError = 0.85;
 
 		// Initialize network
 		NeuralNetwork nn = new NeuralNetwork(numberNeuronsHiddenLayer);
@@ -37,7 +37,7 @@ public class Run {
 		// Train and validate network
 		double meanError = 10.0;
 		int counter = 0;
-		while (desiredError < meanError) {	
+		while (desiredError < meanError) {
 			counter++;
 			
 			// Train

@@ -20,7 +20,7 @@ public class CalculationHelper {
 	public double calculateError(double[] actualOuput, double[] targetOutput) {
         double error = 0.0;
         for (int i = 0; i < targetOutput.length; i++) {
-            error += Math.pow(targetOutput[i] - actualOuput[i], 2);
+            error += Math.pow(actualOuput[i] - targetOutput[i], 2);
         }
         return error / 2;
     }
